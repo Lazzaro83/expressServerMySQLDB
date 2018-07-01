@@ -8,7 +8,7 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "institucije"
+  database: "ediary"
 });
 
 con.connect(err => {
@@ -30,7 +30,7 @@ app.listen(APP_PORT, () => {
   console.log(`App listening on port ${APP_PORT}`);
 });
 
-// !--- QUERIES FOR SCHOOL ---!
+/* !--- QUERIES FOR SCHOOL ---! */
 
 // gets all schools
 app.get("/allSchools", (req, res) => {
@@ -89,17 +89,92 @@ app.put("/school", (req, res) => {
 });
 // deletes school from db
 app.delete("/school", (req, res) => {
-  console.log("req.body", req.body);
   let schoolData = req.body;
-  console.log(schoolData);
   con.query(
     queries.deleteSchoolFromDB,
     [schoolData.id],
     (err, rows, fields) => {
       if (!err) {
-        console.log(rows);
         res.send("Deleted School: " + rows);
       } else console.log(err);
     }
   );
 });
+
+/* !--- END OF SCHOOL QUEIES --! */
+
+/* !--- START OF TEACHER QUERIES --! */
+
+// gets all schools
+app.get("/allTeachers", (req, res) => {
+  con.query(queries.returnAllTeachers, (err, rows) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+// gets single teacher
+app.get("/teacher/:id", (req, res) => {
+  con.query(queries.returnTeacherWithId, [req.params.id], (err, rows) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+// puts new teacher in db
+app.post("/teacher", (req, res) => {
+  let schoolData = req.body;
+  con.query(queries.insertTeacherInDB, schoolData, (err, rows) => {
+    if (!err) {
+      res.send("Inserted school id : " + rows.insertId);
+    } else console.log(err);
+  });
+});
+
+// updates existing teacher in db
+app.put("/teacher", (req, res) => {
+  let teacherData = req.body;
+  con.query(
+    queries.updateTeacherInDB,
+    [
+      teacherData.name,
+      teacherData.surname,
+      teacherData.subject,
+      teacherData.id_school,
+      teacherData.address,
+      teacherData.city,
+      teacherData.phone,
+      teacherData.email,
+      teacherData.site,
+      teacherData.payed,
+      teacherData.password,
+      teacherData.classess,
+      teacherData.id_background,
+      teacherData.id
+    ],
+    (err, rows, fields) => {
+      if (!err) {
+        res.send("Updated teacher : " + rows);
+      } else console.log(err);
+    }
+  );
+});
+// deletes school from db
+app.delete("/teacher", (req, res) => {
+  let teacherData = req.body;
+  con.query(
+    queries.deleteTeacherFromDB,
+    [teacherData.id],
+    (err, rows, fields) => {
+      if (!err) {
+        res.send("Deleted teacher: " + rows);
+      } else console.log(err);
+    }
+  );
+});
+
+/* !--- END OF TEACHER QUERIES --! */
