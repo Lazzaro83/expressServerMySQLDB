@@ -1,3 +1,4 @@
+// school queries
 const returnAllSchools = "SELECT * FROM schools";
 
 const returnSchoolWithId = "SELECT * FROM schools WHERE id = ?";
@@ -9,6 +10,7 @@ const updateSchoolInDB =
 
 const deleteSchoolFromDB = "DELETE FROM schools WHERE id = ?";
 
+// teacher queries
 const returnAllTeachers = "SELECT * FROM teachers";
 
 const returnTeacherWithId = "SELECT * FROM teachers WHERE id = ?";
@@ -20,6 +22,18 @@ const updateTeacherInDB =
 
 const deleteTeacherFromDB = "DELETE FROM teachers WHERE id = ?";
 
+// class queries
+const returnAllClasses = "SELECT * FROM classes";
+
+const returnClassWithId = "SELECT * FROM classes WHERE id = ?";
+
+const insertClassInDB = "INSERT INTO classes SET ?";
+
+const updateClassInDB =
+  "UPDATE classes SET id_school = ?, id_teachers = ?, year = ?, time = ?, homework = ? WHERE id = ?";
+
+const deleteClassFromDB = "DELETE FROM classes WHERE id = ?";
+
 module.exports = {
   returnAllSchools,
   returnSchoolWithId,
@@ -30,5 +44,10 @@ module.exports = {
   returnTeacherWithId,
   insertTeacherInDB,
   updateTeacherInDB,
-  deleteTeacherFromDB
+  deleteTeacherFromDB,
+  returnAllClasses,
+  returnClassWithId,
+  insertClassInDB,
+  updateClassInDB,
+  deleteClassFromDB
 };

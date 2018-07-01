@@ -178,3 +178,67 @@ app.delete("/teacher", (req, res) => {
 });
 
 /* !--- END OF TEACHER QUERIES --! */
+
+/* !--- START OF CLASS QUERIES --! */
+
+// gets all classes
+app.get("/allClasses", (req, res) => {
+  con.query(queries.returnAllClasses, (err, rows) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+// gets single teacher
+app.get("/class/:id", (req, res) => {
+  con.query(queries.returnClassWithId, [req.params.id], (err, rows) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+// puts new class in db
+app.post("/class", (req, res) => {
+  let schoolData = req.body;
+  con.query(queries.insertClassInDB, schoolData, (err, rows) => {
+    if (!err) {
+      res.send("Inserted class id : " + rows.insertId);
+    } else console.log(err);
+  });
+});
+
+// updates existing teacher in db
+app.put("/class", (req, res) => {
+  let classData = req.body;
+  con.query(
+    queries.updateClassInDB,
+    [
+      classData.id_school,
+      classData.id_teachers,
+      classData.year,
+      classData.time,
+      classData.homework,
+      classData.id
+    ],
+    (err, rows, fields) => {
+      if (!err) {
+        res.send("Updated class : " + rows);
+      } else console.log(err);
+    }
+  );
+});
+// deletes school from db
+app.delete("/class", (req, res) => {
+  let classData = req.body;
+  con.query(queries.deleteClassFromDB, [classData.id], (err, rows, fields) => {
+    if (!err) {
+      res.send("Deleted class: " + rows);
+    } else console.log(err);
+  });
+});
+
+/* !--- END OF CLASS QUERIES --! */
