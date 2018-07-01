@@ -34,6 +34,18 @@ const updateClassInDB =
 
 const deleteClassFromDB = "DELETE FROM classes WHERE id = ?";
 
+// student queries
+const returnAllStudents = "SELECT * FROM students";
+
+const returnStudentWithId = "SELECT * FROM students WHERE id = ?";
+
+const insertStudentInDB = "INSERT INTO students SET ?";
+
+const updateStudentInDB =
+  "UPDATE students SET id_school = ?, id_teachers = ?, id_class = ?, id_background = ?, name = ?, surname = ?, sex = ?, fathers_name = ?, mothers_name = ?, address = ?, phone = ?, fathers_phone = ?, mothers_phone = ?, payed = ?, password = ?, email = ?, attendances = ?, city = ? WHERE id = ?";
+
+const deleteStudentFromDB = "DELETE FROM students WHERE id = ?";
+
 module.exports = {
   returnAllSchools,
   returnSchoolWithId,
@@ -49,5 +61,10 @@ module.exports = {
   returnClassWithId,
   insertClassInDB,
   updateClassInDB,
-  deleteClassFromDB
+  deleteClassFromDB,
+  returnAllStudents,
+  returnStudentWithId,
+  insertStudentInDB,
+  updateStudentInDB,
+  deleteStudentFromDB
 };

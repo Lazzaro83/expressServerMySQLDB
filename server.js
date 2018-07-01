@@ -163,7 +163,7 @@ app.put("/teacher", (req, res) => {
     }
   );
 });
-// deletes school from db
+// deletes teacher from db
 app.delete("/teacher", (req, res) => {
   let teacherData = req.body;
   con.query(
@@ -191,7 +191,7 @@ app.get("/allClasses", (req, res) => {
     }
   });
 });
-// gets single teacher
+// gets single class
 app.get("/class/:id", (req, res) => {
   con.query(queries.returnClassWithId, [req.params.id], (err, rows) => {
     if (!err) {
@@ -211,7 +211,7 @@ app.post("/class", (req, res) => {
   });
 });
 
-// updates existing teacher in db
+// updates existing class in db
 app.put("/class", (req, res) => {
   let classData = req.body;
   con.query(
@@ -231,7 +231,7 @@ app.put("/class", (req, res) => {
     }
   );
 });
-// deletes school from db
+// deletes class from db
 app.delete("/class", (req, res) => {
   let classData = req.body;
   con.query(queries.deleteClassFromDB, [classData.id], (err, rows, fields) => {
@@ -242,3 +242,84 @@ app.delete("/class", (req, res) => {
 });
 
 /* !--- END OF CLASS QUERIES --! */
+
+/* !--- START OF STUDENT QUERIES --! */
+
+// gets all students
+app.get("/allStudents", (req, res) => {
+  con.query(queries.returnAllStudents, (err, rows) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+// gets single student
+app.get("/student/:id", (req, res) => {
+  con.query(queries.returnStudentWithId, [req.params.id], (err, rows) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+// puts new student in db
+app.post("/student", (req, res) => {
+  let schoolData = req.body;
+  con.query(queries.insertStudentInDB, schoolData, (err, rows) => {
+    if (!err) {
+      res.send("Inserted school id : " + rows.insertId);
+    } else console.log(err);
+  });
+});
+
+// updates existing student in db
+app.put("/student", (req, res) => {
+  let studentData = req.body;
+  con.query(
+    queries.updateStudentInDB,
+    [
+      studentData.id_school,
+      studentData.id_teachers,
+      studentData.id_class,
+      studentData.id_background,
+      studentData.name,
+      studentData.surname,
+      studentData.sex,
+      studentData.fathers_name,
+      studentData.mothers_name,
+      studentData.address,
+      studentData.phone,
+      studentData.fathers_phone,
+      studentData.mothers_phone,
+      studentData.payed,
+      studentData.password,
+      studentData.email,
+      studentData.attendances,
+      studentData.city,
+      studentData.id
+    ],
+    (err, rows, fields) => {
+      if (!err) {
+        res.send("Updated student : " + rows);
+      } else console.log(err);
+    }
+  );
+});
+// deletes student from db
+app.delete("/student", (req, res) => {
+  let teacherData = req.body;
+  con.query(
+    queries.deleteStudentFromDB,
+    [teacherData.id],
+    (err, rows, fields) => {
+      if (!err) {
+        res.send("Deleted teacher: " + rows);
+      } else console.log(err);
+    }
+  );
+});
+
+/* !--- END OF STUDENT QUERIES --! */
